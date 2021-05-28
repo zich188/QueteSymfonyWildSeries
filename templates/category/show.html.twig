@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<h1>Catégorie : {{ category.name }}</h1>
+<br>
+
+    {% for showByCategorie in showByCategories %}
+        <div>
+            <h3>{{ showByCategorie.title }}</h3>
+<img class="align-self-start mr-3" src="{{ showByCategorie.poster }}" width="150px" alt="200px" padding="30px">
+        </div>
+            <div>
+                {{ showByCategorie.id }}/
+            {{ showByCategorie.summary }}
+            </div>
+        <a href="{{ path("program_show", { id: showByCategorie.id }) }}">Voir la fiche</a>
+        <br>
+    {% else %}
+        Aucune série trouvée.
+    {% endfor %}
+{% endblock %}
