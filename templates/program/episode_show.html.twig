@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<h1>{{ program.title }}</h1>
+
+
+        <img src="{{ program.poster }}" width="100" alt="{{ program.title }}">
+        <div>
+            <p>
+            <h6>
+                Saison {{ season.number }} episode {{ episode.number }} :  {{ episode.title }}
+            </h6>
+                <br>
+                Résumé de l'épisode : {{ episode.synopsis }}
+            </p>
+        </div>
+
+    <a href="{{ path('program_season_show', {program: program.id,  season: season.id}) }}">Retourner à la sélection d'épisodes</a>
+
+
+{% endblock %}
