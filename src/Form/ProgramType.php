@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Program;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -13,11 +14,10 @@ class ProgramType extends AbstractType
     {
         $builder
             ->add('title')
-            ->add('synopsis')
+            ->add('synopsis', TextType::class)
             ->add('poster')
             ->add('country')
             ->add('year')
-            ->add('category')
             ->add('category', null, ['choice_label' => 'name'])
         ;
     }
