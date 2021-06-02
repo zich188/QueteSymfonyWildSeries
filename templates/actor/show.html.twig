@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>{{ actor.name }}</h1>
+
+   Joue un rôle dans :
+    {% for program in actor.programs %}
+
+        <a href="{{ path("program_show", { id: program.id }) }}"><li>{{ program.title }}</li></a>
+
+    {% endfor %}
+
+    <br>
+    <a href="{{ path('actor_index', {id: actor.id}) }}">Retour aux choix des acteurs</a>
+
+{% endblock %}
