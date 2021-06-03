@@ -74,4 +74,9 @@ class Actor
 
         return $this;
     }
+    public function getSelector() : string
+
+    {
+        return $this->getId() . ' - ' . $this->getName();
+    }
 }
