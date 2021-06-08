@@ -13,6 +13,8 @@
                 <li>{{ season.number }} ({{ season.year }})
                 <a href='{{ path("program_season_show", { program: program.id,  season: season.id }) }}'>Voir la saison</a>
                 </li>
+            {% else %}
+                <li>Saison bientôt disponible</li>
             {% endfor %}
             </h6>
             <br>

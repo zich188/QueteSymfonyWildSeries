@@ -7,7 +7,8 @@
     {% for program in actor.programs %}
 
         <a href="{{ path("program_show", { id: program.id }) }}"><li>{{ program.title }}</li></a>
-
+    {% else %}
+        Aucune série trouvée.
     {% endfor %}
 
     <br>
