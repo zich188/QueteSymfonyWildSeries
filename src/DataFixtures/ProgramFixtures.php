@@ -3,12 +3,21 @@
 namespace App\DataFixtures;
 
 use App\Entity\Program;
+use App\Service\Slugify;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
 class ProgramFixtures extends Fixture implements DependentFixtureInterface
 {
+
+    private  $slugify;
+
+    public function __construct(Slugify $slugify)
+    {
+        $this->slugify = $slugify;
+    }
+
     public const PROGRAMS = [
         ['Bojack Horseman', 'Dans un monde parallèle où les humains et les animaux anthropomorphes vivent côte à côte, BoJack Horseman, un cheval acteur connu pour avoir joué dans une sitcom fictive des années 1990,
          Horsin vit à Hollywood (renommée dans la première saison "Hollywoo" après la disparition de la lettre D du panneau). 
@@ -17,7 +26,13 @@ class ProgramFixtures extends Fixture implements DependentFixtureInterface
         ,'https://i.ytimg.com/vi/9f1ovIps0oA/maxresdefault.jpg', 'states', 2013],
         ['Brooklyn Nine-Nine', 'Brooklyn Nine-Nine raconte la vie d un commissariat de police dans l arrondissement de Brooklyn à New York. L arrivée d un nouveau capitaine, froid et strict,
          fait rapidement regretter aux détectives son prédécesseur.', 'https://www.sortiraparis.com/images/80/66131/553687-series-brooklyn-nine-nine-s07-critique-et-bande-annonce.jpg',
-        'states',2013 ]
+        'states',2013],
+        ['La casa de papel', 'Huit voleurs font une prise d otages dans la Maison royale de la Monnaie d Espagne, 
+        tandis qu un génie du crime manipule la police pour mettre son plan à exécution.', 'https://images.critictoo.com/wp-content/uploads/2019/07/La-Casa-De-Papel-Saison-1-Casting.jpg',
+            'spain', 2017],
+        ['The Crown', 'The Crown présente la vie de la souveraine du Royaume-Uni, Élisabeth II , de son mariage en 1947 jusqu à nos jours, durant six saisons,
+         chacune couvrant une décennie du règne de la souveraine britannique.', 'https://fr.web.img4.acsta.net/pictures/19/10/22/14/31/2797425.jpg',
+            'British', 2017]
     ];
 
     public function load(ObjectManager $manager)
@@ -36,6 +51,7 @@ class ProgramFixtures extends Fixture implements DependentFixtureInterface
             $program->addActor($this->getReference('actor_'.rand(0,9)));
             $program->addActor($this->getReference('actor_'.rand(0,9)));
             //}
+            $program->setSlug($this->slugify->generate($programName[0]));
             $manager->persist($program);
             $this->addReference('program_'.$key, $program);
         }

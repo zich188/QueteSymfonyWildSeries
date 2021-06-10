@@ -7,6 +7,7 @@ use App\Entity\Episode;
 use App\Entity\Program;
 use App\Entity\Season;
 use App\Form\ProgramType;
+use App\Service\Slugify;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -39,7 +40,7 @@ Class ProgramController extends AbstractController
      * Correspond à la route /programs/new et au name "program_new"
      * @Route("/new", name="new")
      */
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, Slugify $slugify): Response
     {
 // Create a new Category Object
         $program = new Program();
@@ -54,6 +55,9 @@ Class ProgramController extends AbstractController
             // For example : persiste & flush the entity
             // And redirect to a route that display the result
             $entityManager = $this->getDoctrine()->getManager();
+            //Appel du service Slugify
+            $slug = $slugify->generate($program->getTitle());
+            $program->setSlug($slug);
             // Persist Category Object
             $entityManager->persist($program);
             // Flush the persisted object
@@ -69,7 +73,7 @@ Class ProgramController extends AbstractController
 
     /**
      * Correspond à la route /programs/{id} et au name "program_show"
-     * @Route("/{id}/", methods={"GET"}, requirements={"id"="\d+"}, name="show")
+     * @Route("/{slug}/", methods={"GET"}, requirements={"id"="\d+"}, name="show")
      */
     public function show(Program $program): Response
     {
@@ -89,7 +93,7 @@ Class ProgramController extends AbstractController
 
     /**
      * Correspond à la route /programs/{program}/seasons/{season} et au name "program_season_show"
-     * @Route("/{program}/seasons/{season}", name="season_show")
+     * @Route("/{slug}/seasons/{season}", name="season_show")
      */
     public function showSeason(Program $program, Season $season)
     {
@@ -99,7 +103,7 @@ Class ProgramController extends AbstractController
 
     /**
      * Correspond à la route /programs/{programId}/seasons/{seasonId}/episodes/{episodeId} et au name "program_episode_show"
-     * @Route ("/{program}/seasons/{season}/episodes/{episode}", name="episode_show")
+     * @Route ("/{slug}/seasons/{season}/episodes/{episode}", name="episode_show")
      */
     public function showEpisode(Program $program, Season $season, Episode $episode): Response
     {
