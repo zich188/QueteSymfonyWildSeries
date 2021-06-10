@@ -13,7 +13,7 @@
                 {{ showByCategorie.id }}/
             {{ showByCategorie.synopsis }}
             </div>
-        <a href="{{ path("program_show", { id: showByCategorie.id }) }}">Voir la fiche</a>
+        <a href="{{ path("program_show", { slug: showByCategorie.slug }) }}">Voir la fiche</a>
         <br>
     {% else %}
         Aucune série trouvée.

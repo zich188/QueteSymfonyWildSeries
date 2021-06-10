@@ -12,13 +12,13 @@
  {{ season.description }}
     <br>
     <br>
-    <a href="{{ path('program_show', {id: program.id}) }}">Retour aux choix des saisons</a>
+    <a href="{{ path('program_show', {slug: program.slug}) }}">Retour aux choix des saisons</a>
     <br>
     <br>
         {%  for episode in season.episodes %}
             <li>Saison {{ season.number }} Episode : {{ episode.number }} - {{ episode.title }}</li>
 
-            <a href="{{ path('program_episode_show', {program: program.id,  season: season.id, episode: episode.id}) }}">Voir l'épisode {{ episode.number }}</a>
+            <a href="{{ path('program_episode_show', {slug: program.slug,  season: season.id, episode: episode.id}) }}">Voir l'épisode {{ episode.number }}</a>
         {% else %}
             Episodes bientôt disponible.
 

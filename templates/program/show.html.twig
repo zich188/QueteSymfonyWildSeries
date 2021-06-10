@@ -11,7 +11,7 @@
             <h6>Saisons disponibles :
             {% for season in seasons %}
                 <li>{{ season.number }} ({{ season.year }})
-                <a href='{{ path("program_season_show", { program: program.id,  season: season.id }) }}'>Voir la saison</a>
+                    <a href='{{ path("program_season_show", { slug: program.slug,  season: season.id }) }}'>Voir la saison</a>
                 </li>
             {% else %}
                 <li>Saison bientôt disponible</li>
