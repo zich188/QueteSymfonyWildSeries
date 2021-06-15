@@ -16,6 +16,41 @@
         </div>
 
     <a href="{{ path('program_season_show', {slug: program.slug,  season: season.id}) }}">Retourner à la sélection d'épisodes</a>
+<br>
+    <br>
+    <br>
+
+    <div class="text-center"><h5>Liste des commentaires</h5></div>
+    <article class="uk-comment uk-comment-primary">
+        {% for comments in episode.comments %}
+        <header class="uk-comment-header">
+            <div class="uk-grid-medium uk-flex-middle" uk-grid>
+                <div class="uk-width-auto">
+                </div>
+                <div class="uk-width-expand">
+                    <hr/>
+                    <h6><li>{{ comments.author.email }}</li></h6>
+                    <ul class="uk-comment-meta uk-subnav uk-subnav-divider uk-margin-remove-top">
+                    </ul>
+                </div>
+            </div>
+        </header>
+        <div class="uk-comment-body">
+            <p>{{ comments.comment }}</p>
+            {% endfor %}
+        </div>
+        <hr/>
+    </article>
+
+    {% if app.user %}
+    <h4>Ajouter un commentaires</h4>
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <button class="btn">{{ button_label|default('Save') }}</button>
+        {{ form_end(form) }}
+        {% else %}
+        <h4>Connectez vous pour un commentaire</h4>
+    {% endif %}
 
 
 {% endblock %}
