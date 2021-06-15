@@ -2,6 +2,8 @@
 // src/Controller/ProgramController.php
 namespace App\Controller;
 
+use App\Form\CommentType;
+use App\Entity\Comment;
 use App\Entity\Category;
 use App\Entity\Episode;
 use App\Entity\Program;
@@ -116,10 +118,20 @@ Class ProgramController extends AbstractController
      * Correspond à la route /programs/{programId}/seasons/{seasonId}/episodes/{episodeId} et au name "program_episode_show"
      * @Route ("/{slug}/seasons/{season}/episodes/{episode}", name="episode_show")
      */
-    public function showEpisode(Program $program, Season $season, Episode $episode): Response
+    public function showEpisode(Program $program, Season $season, Episode $episode, Request $request): Response
     {
-        return $this->render('program/episode_show.html.twig', ['program' => $program, 'season' => $season,
-            'episode' => $episode]);
+        $comment = new Comment();
+        $form = $this->createForm(CommentType::class, $comment);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $comment->setAuthor($this->getUser());
+            $entityManager->persist($comment);
+            $entityManager->flush();
+        }
+
+        return $this->render('program/episode_show.html.twig', ['program' => $program, 'season' => $season, 'episode' => $episode, 'form' => $form->createView()]);
     }
 
 }
