@@ -6,7 +6,7 @@ use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+
 
 class UserFixtures extends Fixture
 {
@@ -33,7 +33,7 @@ class UserFixtures extends Fixture
         $contributor->setRoles(['ROLE_CONTRIBUTOR']);
         $contributor->setPassword($this->passwordEncode->encodePassword(
             $contributor,
-            'contributorpassword'
+            'cp'
         ));
         $manager->persist($contributor);
 
@@ -43,7 +43,7 @@ class UserFixtures extends Fixture
         $admin->setRoles(['ROLE_ADMIN']);
         $admin->setPassword($this->passwordEncode->encodePassword(
             $admin,
-            'adminpassword'
+            'ap'
         ));
 
         $manager->persist($admin);
