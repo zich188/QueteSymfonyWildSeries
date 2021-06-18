@@ -37,6 +37,9 @@
         </header>
         <div class="uk-comment-body">
             <p>{{ comments.comment }}</p>
+            {% if is_granted("ROLE_ADMIN") or app.user is same as comments.author %}
+                <a href="{{ path('comment_edit', {'id': comments.id}) }}">edit</a>
+            {% endif %}
             {% endfor %}
         </div>
         <hr/>
@@ -49,7 +52,7 @@
         <button class="btn">{{ button_label|default('Save') }}</button>
         {{ form_end(form) }}
         {% else %}
-        <h4>Connectez vous pour un commentaire</h4>
+        <h4>Connectez vous pour poster un commentaire</h4>
     {% endif %}
 
 

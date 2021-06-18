@@ -51,6 +51,7 @@ class ProgramFixtures extends Fixture implements DependentFixtureInterface
             $program->addActor($this->getReference('actor_'.rand(0,9)));
             $program->addActor($this->getReference('actor_'.rand(0,9)));
             //}
+            $program->setOwner($this->getReference('admin'));
             $program->setSlug($this->slugify->generate($programName[0]));
             $manager->persist($program);
             $this->addReference('program_'.$key, $program);
