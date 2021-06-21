@@ -23,7 +23,7 @@ class ProgramFixtures extends Fixture implements DependentFixtureInterface
          Horsin vit à Hollywood (renommée dans la première saison "Hollywoo" après la disparition de la lettre D du panneau). 
          Après un passage à vide de 18 ans, il s efforce de retrouver la célébrité dans le monde hypercompétitif du show-business,
          et y parviendra un temps grâce à son interprétation du rôle de Secretariat dans un biopic sur la vie du célèbre cheval de course.'
-        ,'https://i.ytimg.com/vi/9f1ovIps0oA/maxresdefault.jpg', 'states', 2013],
+        ,'https://i.ytimg.com/vi/9f1ovIps0oA/maxresdefault.jpg', 'states', 2013, 2],
         ['Brooklyn Nine-Nine', 'Brooklyn Nine-Nine raconte la vie d un commissariat de police dans l arrondissement de Brooklyn à New York. L arrivée d un nouveau capitaine, froid et strict,
          fait rapidement regretter aux détectives son prédécesseur.', 'https://www.sortiraparis.com/images/80/66131/553687-series-brooklyn-nine-nine-s07-critique-et-bande-annonce.jpg',
         'states',2013],
@@ -51,7 +51,8 @@ class ProgramFixtures extends Fixture implements DependentFixtureInterface
             $program->addActor($this->getReference('actor_'.rand(0,9)));
             $program->addActor($this->getReference('actor_'.rand(0,9)));
             //}
-            $program->setOwner($this->getReference('admin'));
+            $program->setOwner(owner: $this->getReference('admin'));
+            $program->setOwner(owner: $this->getReference('contributor'));
             $program->setSlug($this->slugify->generate($programName[0]));
             $manager->persist($program);
             $this->addReference('program_'.$key, $program);
