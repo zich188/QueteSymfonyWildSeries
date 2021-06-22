@@ -2,7 +2,7 @@
     <div class="nav nav-tabs" id="nav-tab" role="tablist">
         <img src="{{ asset('build/logo.webp') }}" alt="" width="70" height="70" class="d-inline-block align-text-top">
         <a class="nav-item nav-link" id="nav-home-tab" data-toggle="tab" href="/" role="tab" aria-controls="nav-home" aria-selected="true">Home</a>
-        <a class="nav-item nav-link" id="nav-programs-tab" data-toggle="tab" href="#" role="tab" aria-controls="nav-profile" aria-selected="false">Profile</a>
+        <a class="nav-item nav-link" id="nav-programs-tab" data-toggle="tab" href="/user/my-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Profile</a>
         <a class="nav-item nav-link" id="nav-series-tab" data-toggle="tab" href="/programs" role="tab" aria-controls="nav-profile" aria-selected="false">Explorer les nouvelles séries</a>
         <a class="nav-item nav-link" id="nav-categories-tab" data-toggle="tab" href="/categories" role="tab" aria-controls="nav-profile" aria-selected="false">Choix par catégories</a>
         <a class="nav-item nav-link" id="nav-favoris-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Favoris</a>
@@ -17,7 +17,7 @@
     {% if app.user %}
         {{ app.user.email }}
         <a href="{{ path('app_logout') }}"> Se déconnecter</a>
-        <a href="{{ path('app_logout') }}"> Mon compte</a>
+        <a href="{{ path('user_profile') }}"> Mon compte</a>
     {% else %}
         <a href="{{ path('app_login') }}"> Se connecter</a>
         ou <a href="{{ path('app_register') }}"> Créer un compte</a>
