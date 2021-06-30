@@ -19,6 +19,21 @@ class ProgramRepository extends ServiceEntityRepository
         parent::__construct($registry, Program::class);
     }
 
+    public function findLikeNameSeriesActorsCategories(string $name)
+    {
+        $queryBuilder = $this->createQueryBuilder('p')
+            //jointure avec la table program et actors
+            ->join('p.actors', 'pa')
+            //jointure avec la table program et category
+            ->join('p.category', 'pc')
+            ->andwhere('p.title LIKE :name OR pa.name LIKE :name OR pc.name LIKE :name')
+            ->setParameter('name', '%'. $name . '%')
+            ->orderBy('p.title', 'ASC')
+            ->getQuery();
+
+        return $queryBuilder->getResult();
+    }
+
     // /**
     //  * @return Program[] Returns an array of Program objects
     //  */
