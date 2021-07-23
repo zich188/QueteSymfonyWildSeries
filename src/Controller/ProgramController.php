@@ -16,6 +16,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Routing\Annotation\Route;
@@ -32,13 +33,19 @@ Class ProgramController extends AbstractController
      * @Route("/", name="index")
      * @return Response A response instance
      */
-    public function index(Request $request, ProgramRepository $programRepository): Response
+    public function index(Request $request, ProgramRepository $programRepository, SessionInterface $session): Response
     {
         $programs = $this->getDoctrine()
             ->getRepository(Program::class)
             ->findAll();
         $form = $this->createForm(SearchProgramFormType::class);
         $form->handleRequest($request);
+
+        if (!$session->has('total')) {
+            $session->set('total', 0); // if total doesn’t exist in session, it is initialized.
+        }
+        $total = $session->get('total'); // get actual value in session with ‘total' key.
+
         if ($form->isSubmitted() && $form->isValid()) {
             $search = $form->getData()['search'];
             $programs = $programRepository->findLikeNameSeriesActorsCategories($search);
@@ -89,6 +96,11 @@ Class ProgramController extends AbstractController
 
             $mailer->send($email);
             // Finally redirect to categories list
+            return $this->redirectToRoute('program_index');
+
+            // Once the form is submitted, valid and the data inserted in database, you can define the success flash message
+            $this->addFlash('success', 'The new program has been created');
+
             return $this->redirectToRoute('program_index');
         }
         return $this->render('program/new.html.twig', [
@@ -154,10 +166,7 @@ Class ProgramController extends AbstractController
         $form->handleRequest($request);
 
         // Check wether the logged in user is the owner of the program
-        if (!($this->getUser() == $program->getOwner())) {
-            // If not the owner, throws a 403 Access Denied exception
-            throw new AccessDeniedException('Only the owner can edit the program!');
-        }
+
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
